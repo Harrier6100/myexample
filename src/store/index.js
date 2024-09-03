@@ -1,14 +1,20 @@
 import { createStore } from 'vuex';
+import user from './modules/user';
 
 const store = createStore({
     modules: {
+        user,
     },
     state() {
         return {
             loading: false,
+            routeQuery: null,
         };
     },
     getters: {
+        getQuery: (state) => {
+            return state.routeQuery;
+        },
     },
     mutations: {
         startLoading(state) {
@@ -16,6 +22,9 @@ const store = createStore({
         },
         stopLoading(state) {
             state.loading = false;
+        },
+        setQuery(state, payload) {
+            state.routeQuery = payload;
         },
     },
 });

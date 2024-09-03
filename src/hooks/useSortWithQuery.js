@@ -52,6 +52,29 @@ const useSortWithQuery = (tableData) => {
         });
     });
 
+    onMounted(() => {
+        if (route.query.sort && route.query.sortOrder) {
+            sort.value = route.query.sort;
+            sortOrder.value = route.query.sortOrder;
+        }
+    });
+
+    const updateSort = () => {
+        router.replace({
+            query: {
+                ...route.query,
+                sort: sort.value,
+                sortOrder: sortOrder.value,
+            },
+        });
+    };
+    watch([sort, sortOrder], updateSort);
+
+    return {
+        orderBy,
+        sortBy,
+        sortedData,
+    };
 };
 
 export default useSortWithQuery;
