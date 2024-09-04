@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_BASE_URL } from '@/env/config';
 
 const api = axios.create({
-    baseURL: 'http://192.168.11.12:3000',
+    baseURL: API_BASE_URL,
     timeout: 30000,
 });
 
@@ -27,7 +28,7 @@ api.interceptors.response.use(
             config._retry = true;
             try {
                 const storedRefreshToken = localStorage.getItem('refreshToken');
-                const response = await axios.post('http://192.168.11.12:3000/api/refresh', { refreshToken: storedRefreshToken });
+                const response = await axios.post(`${API_BASE_URL}/api/refresh`, { refreshToken: storedRefreshToken });
                 const { token, refreshToken } = response.data;
 
                 localStorage.setItem('token', token);

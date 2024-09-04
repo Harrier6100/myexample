@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { API_BASE_URL } from '@/env/config';
 
 const api = axios.create({
-    baseURL: 'http://192.168.11.12:3000',
+    baseURL: API_BASE_URL,
     timeout: 3000,
 });
 

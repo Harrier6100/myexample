@@ -11,12 +11,12 @@
                             <div class="mb-3">
                                 <label>ID</label>
                                 <input class="form-control" v-model="form.code">
-                                <div class="form-text" v-if="error.code">{{ error.code }}</div>
+                                <div class="form-text text-danger" v-if="error.code">{{ error.code }}</div>
                             </div>
                             <div class="mb-3">
                                 <label>名前</label>
                                 <input class="form-control" v-model="form.name">
-                                <div class="form-text" v-if="error.name">{{ error.name }}</div>
+                                <div class="form-text text-danger" v-if="error.name">{{ error.name }}</div>
                             </div>
                             <div class="mb-3">
                                 <label>メールアドレス</label>
