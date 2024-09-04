@@ -37,14 +37,10 @@ api.interceptors.response.use(
                 config.headers['Authorization'] = token;
                 return axios(config);
             } catch (refreshError) {
-                if (refreshError.response) console.log(refreshError.response);
-                else console.log(refreshError);
                 return Promise.reject(refreshError);
             }
         }
 
-        if (error.response) console.log(error.response);
-        else console.log(error);
         return Promise.reject(error);
     },
 );

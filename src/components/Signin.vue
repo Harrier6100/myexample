@@ -8,15 +8,15 @@
                         <div class="mb-3">
                             <div class="mb-3">
                                 <input class="form-control" v-model="form.id" @input="Validation.id()" placeholder="ID">
-                                <div class="form-text" v-if="error.id">{{ error.id }}</div>
+                                <div class="form-text text-danger" v-if="error.id">{{ error.id }}</div>
                             </div>
                             <div class="mb-3">
                                 <input class="form-control" type="password" v-model="form.password" @input="Validation.password()" placeholder="パスワード">
-                                <div class="form-text" v-if="error.password">{{ error.password }}</div>
+                                <div class="form-text text-danger" v-if="error.password">{{ error.password }}</div>
                             </div>
                             <button :disabled="isLoading">サインイン</button>
                         </div>
-                        {{ alert }}
+                        <div class="form-text text-danger">{{ alert }}</div>
                     </form>
                 </div>
             </div>
@@ -33,6 +33,7 @@ export default {
     props: {
         open: Boolean,
     },
+    emits: ['close'],
     setup(props, { emit }) {
         const store = useStore();
         const { isLoading } = useLoading();
@@ -78,7 +79,7 @@ export default {
                     emit('close');
                 })
                 .catch(err => {
-                    alert.value = err;
+                    alert.value = err.message;
                 })
                 .finally(() => {
                     store.commit('stopLoading');

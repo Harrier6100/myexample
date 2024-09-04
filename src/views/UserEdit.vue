@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <button class="me-2" @click="onSave" :disabled="isLoading">保存</button>
-                <button class="me-2" @click="onGoback" :disabled="isLoading">戻る</button>
+                <button class="me-2" type="button" @click="onGoback" :disabled="isLoading">戻る</button>
             </form>
         </div>
     </div>
@@ -89,7 +89,8 @@ const createItem = async () => {
         const response = await apiPost(`/api/users`, form.value);
         addAlert(`作成しました。(ID:${response._id})`, 'success');
     } catch (err) {
-        addAlert(err, 'error');
+        if (err.response) addAlert(err.response.data, 'error');
+        else addAlert(err, 'error');
     } finally {
         store.commit('stopLoading');
     }
@@ -101,7 +102,8 @@ const updateItem = async () => {
         const response = await apiPut(`/api/users/${id}`, form.value);
         addAlert(`更新しました。(ID:${response._id})`, 'success');
     } catch (err) {
-        addAlert(err, 'error');
+        if (err.response) addAlert(err.response.data, 'error');
+        else addAlert(err, 'error');
     } finally {
         store.commit('stopLoading');
     }

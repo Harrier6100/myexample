@@ -4,7 +4,7 @@ import { API_BASE_URL } from '@/env/config';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 3000,
+    timeout: 10000,
 });
 
 const user = {
@@ -43,7 +43,8 @@ const user = {
                 localStorage.setItem('token', token);
                 localStorage.setItem('refreshToken', refreshToken);
             } catch (err) {
-                throw new Error(err);
+                if (err.response) throw new Error(err.response.data);
+                else throw new Error(err);
             }
         },
         autoSignin: async ({ commit }) => {

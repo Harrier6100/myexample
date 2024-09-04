@@ -83,7 +83,8 @@ const fetchUsers = async () => {
         const response = await apiGet(`api/users`);
         items.value = response;
     } catch (err) {
-        addAlert(err, 'error');
+        if (err.response) addAlert(err.response.data, 'error');
+        else addAlert(err, 'error');
     } finally {
         store.commit('stopLoading');
     }
