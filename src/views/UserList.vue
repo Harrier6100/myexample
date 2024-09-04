@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="mb-3">
-            <h6>Users</h6>
+            <h5>Users</h5>
         </div>
         <div class="mb-3">
             <div class="row mb-3">
@@ -74,10 +74,10 @@ const { orderBy, sortBy, sortedData } = useSort(filteredData);
 const { page, pageSize, nextPage, prevPage, paginatedData } = usePagination(sortedData, 10);
 
 onMounted(() => {
-    fetchUsers();
+    fetchItems();
 });
 
-const fetchUsers = async () => {
+const fetchItems = async () => {
     try {
         store.commit('startLoading');
         const response = await apiGet(`api/users`);
