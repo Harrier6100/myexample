@@ -4,8 +4,14 @@
             <h6>Users</h6>
         </div>
         <div class="mb-3">
-            <input class="form-control" v-model="filterValue" placeholder="検索">
-            <button class="btn btn-outline-primary" type="button" @click="addItem">新規追加</button>
+            <div class="row mb-3">
+                <div class="col-auto me-auto">
+                    <input class="form-control" v-model="filterValue" placeholder="検索">
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary" type="button" @click="addItem">新規追加</button>
+                </div>
+            </div>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
