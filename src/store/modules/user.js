@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { API_BASE_URL } from '@/env/config';
 
 const api = axios.create({
@@ -35,11 +34,8 @@ const user = {
         signin: async ({ commit }, credentials) => {
             try {
                 const response = await api.post(`/api/signin`, credentials);
-                const { token, refreshToken } = response.data;
-
-                const user = jwtDecode(token);
+                const { user, token, refreshToken } = response.data;
                 commit('setUser', { user, token });
-
                 localStorage.setItem('token', token);
                 localStorage.setItem('refreshToken', refreshToken);
             } catch (err) {
@@ -53,11 +49,8 @@ const user = {
             if (storedToken && storedRefreshToken) {
                 try {
                     const response = await api.post(`/api/refresh`, { refreshToken: storedRefreshToken });
-                    const { token, refreshToken } = response.data;
-
-                    const user = jwtDecode(token);
+                    const { user, token, refreshToken } = response.data;
                     commit('setUser', { user, token });
-
                     localStorage.setItem('token', token);
                     localStorage.setItem('refreshToken', refreshToken);
                 } catch (err) {

@@ -46,7 +46,7 @@ import Flatpickr from '@/components/Flatpickr';
 import useLoading from '@/hooks/useLoading';
 import useAlert from '@/hooks/useAlert';
 import useDateFormat from '@/hooks/useDateFormat';
-import { apiGet, apiPost, apiPut } from '@/services/api';
+import api from '@/services/api';
 
 const store = useStore();
 const route = useRoute();
@@ -71,7 +71,7 @@ onMounted(() => {
 const fetchItem = async (id) => {
     try {
         store.commit('startLoading');
-        const response = await apiGet(`/api/users/${id}`);
+        const response = await api.get(`/api/users/${id}`);
         form.value.code = response.code;
         form.value.name = response.name;
         form.value.email = response.email;
@@ -86,11 +86,11 @@ const fetchItem = async (id) => {
 const createItem = async () => {
     try {
         store.commit('startLoading');
-        const response = await apiPost(`/api/users`, form.value);
+        const response = await api.post(`/api/users`, form.value);
         addAlert(`作成しました。(ID:${response._id})`, 'success');
     } catch (err) {
         if (err.response) addAlert(err.response.data, 'error');
-        else addAlert(err, 'error');
+        else addAlert(err.message, 'error');
     } finally {
         store.commit('stopLoading');
     }
@@ -99,11 +99,11 @@ const createItem = async () => {
 const updateItem = async () => {
     try {
         store.commit('startLoading');
-        const response = await apiPut(`/api/users/${id}`, form.value);
+        const response = await api.put(`/api/users/${id}`, form.value);
         addAlert(`更新しました。(ID:${response._id})`, 'success');
     } catch (err) {
         if (err.response) addAlert(err.response.data, 'error');
-        else addAlert(err, 'error');
+        else addAlert(err.message, 'error');
     } finally {
         store.commit('stopLoading');
     }

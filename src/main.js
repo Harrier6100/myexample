@@ -7,6 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import 'flatpickr/dist/flatpickr.min.css';
 import '@/assets/bootstrap.css';
 import '@/assets/index.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
 app.use(store);

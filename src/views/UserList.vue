@@ -35,8 +35,8 @@
                         <td class="text-start">{{ formatAt(row.updatedAt) }}</td>
                         <td class="text-start">{{ row.updatedBy }}</td>
                         <td class="text-center">
-                            <a href="javascript:" class="mx-2" @click="updateItem(row._id)" :disabled="isLoading">編集</a>
-                            <a href="javascript:" class="mx-2" @click="removeItem(row._id)" :disabled="isLoading">削除</a>
+                            <a class="mx-2" href="#" @click="updateItem(row._id)" :disabled="isLoading">編集</a>
+                            <a class="mx-2" href="#" @click="removeItem(row._id)" :disabled="isLoading">削除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -59,7 +59,7 @@ import useDateFormat from '@/hooks/useDateFormat';
 import useFilter from '@/hooks/useFilterWithQuery';
 import useSort from '@/hooks/useSortWithQuery';
 import usePagination from '@/hooks/usePaginationWithQuery';
-import { apiGet, apiDelete } from '@/services/api';
+import api from '@/services/api';
 
 const store = useStore();
 const route = useRoute();
@@ -80,11 +80,11 @@ onMounted(() => {
 const fetchItems = async () => {
     try {
         store.commit('startLoading');
-        const response = await apiGet(`api/users`);
+        const response = await api.get(`api/users`);
         items.value = response;
     } catch (err) {
         if (err.response) addAlert(err.response.data, 'error');
-        else addAlert(err, 'error');
+        else addAlert(err.message, 'error');
     } finally {
         store.commit('stopLoading');
     }
@@ -109,11 +109,12 @@ const removeItem = async (id) => {
     if (confirm('削除しますか？')) {
         try {
             store.commit('startLoading');
-            const response = await apiDelete(`/api/users/${id}`);
+            const response = await api.delete(`/api/users/${id}`);
             items.value = items.value.filter(row => row._id !== id);
             addAlert(`削除しました。(ID:${response._id})`, 'success');
         } catch (err) {
-            addAlert(err, 'error');
+            if (err.response) addAlert(err.response.data, 'error');
+            else addAlert(err.message, 'error');
         } finally {
             store.commit('stopLoading');
         }

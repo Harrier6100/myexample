@@ -5,7 +5,3 @@ a {
 .form-control::placeholder {
   color: var(--bs-gray-500);
 }
-
-.dropdown-menu {
-  display: block;
-}

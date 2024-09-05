@@ -2,7 +2,7 @@
     <div class="alerts">
         <div v-for="(alert, index) in alerts" :key="index" :class="['alert', alert.type]">
             {{ alert.content }}
-            <a href="javascript:" class="ms-2" @click="removeAlert(alert.id)">
+            <a class="ms-2" href="#" @click="removeAlert(alert.id)">
                 <i class="bi bi-x"></i>
             </a>
         </div>

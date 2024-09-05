@@ -3,20 +3,18 @@
         <div class="base" v-show="open">
             <div class="overlay" v-show="open" @click="onClose"></div>
             <div class="content" v-show="open">
-                <form @submit.prevent="onSignin">
+                <div class="mb-3">
                     <div class="mb-3">
-                        <div class="mb-3">
-                            <input class="form-control" v-model="form.id" @input="Validation.id()" placeholder="ID">
-                            <div class="form-text text-danger" v-if="error.id">{{ error.id }}</div>
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" type="password" v-model="form.password" @input="Validation.password()" placeholder="パスワード">
-                            <div class="form-text text-danger" v-if="error.password">{{ error.password }}</div>
-                        </div>
-                        <button :disabled="isLoading">サインイン</button>
+                        <input class="form-control" type="password" v-model="form.password" placeholder="新しいパスワード">
+                        <div class="form-text text-danger" v-if="error.password">{{ error.password }}</div>
                     </div>
-                    <div class="form-text text-danger">{{ alert }}</div>
-                </form>
+                    <div class="mb-3">
+                        <input class="form-control" type="password" v-model="form.passwordConfirm" placeholder="新しいパスワード（再入力）">
+                        <div class="form-text text-danger" v-if="error.passwordConfirm">{{ error.passwordConfirm }}</div>
+                    </div>
+                    <button type="button" @click="onSave" :disabled="isLoading">保存</button>
+                </div>
+                <div class="form-text text-danger">{{ alert }}</div>
             </div>
         </div>
     </teleport>
@@ -26,6 +24,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import useLoading from '@/hooks/useLoading';
+import api from '@/services/api';
 
 export default {
     props: {
@@ -37,8 +36,8 @@ export default {
         const { isLoading } = useLoading();
 
         const form = ref({
-            id: '',
             password: '',
+            passwordConfirm: '',
         });
         const error = ref({});
         const alert = ref('');
@@ -46,33 +45,38 @@ export default {
         const Validation = {
             run() {
                 return ([
-                    this.id(),
                     this.password(),
+                    this.passwordConfirm(),
                 ]).every(bool => bool);
-            },
-            id() {
-                error.value.id = '';
-                if (form.value.id === '') {
-                    error.value.id = 'IDを入力してください。';
-                    return false;
-                }
-                return true;
             },
             password() {
                 error.value.password = '';
                 if (form.value.password === '') {
-                    error.value.password = 'パスワードを入力してください。';
+                    error.value.password = '新しいパスワードを入力してください。';
                     return false;
+                }
+                return true;
+            },
+            passwordConfirm() {
+                error.value.passwordConfirm = ''
+                if (form.value.passwordConfirm === '') {
+                    error.value.passwordConfirm = '新しいパスワード（再入力）を入力してください。';
+                    return false;
+                } else {
+                    if (form.value.password !== form.value.passwordConfirm) {
+                        error.value.passwordConfirm = '入力されたパスワードが一致しません。';
+                        return false;
+                    }
                 }
                 return true;
             },
         };
 
-        const onSignin = () => {
+        const onSave = async () => {
             alert.value = '';
             if (Validation.run()) {
                 store.commit('startLoading');
-                store.dispatch('user/signin', form.value)
+                api.put(`/api/me/password`, form.value)
                 .then(() => {
                     onClose();
                 })
@@ -86,8 +90,8 @@ export default {
         };
 
         const onClose = () => {
-            form.value.id = '';
             form.value.password = '';
+            form.value.passwordConfirm = '';
             emit('close');
         };
 
@@ -97,7 +101,7 @@ export default {
             error,
             alert,
             Validation,
-            onSignin,
+            onSave,
             onClose,
         };
     },

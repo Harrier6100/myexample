@@ -42,3 +42,33 @@ td:empty::before {
   border-radius: 10px;
   padding: 50px;
 }
+
+@media (min-width: 576px) {
+  .content {
+    width: 70%;
+    padding: 30px;
+  }
+}
+@media (min-width: 768px) {
+  .content {
+    width: 60%;
+    padding: 35px;
+  }
+}
+@media (min-width: 992px) {
+  .content {
+    width: 50%;
+    padding: 40px;
+  }
+}
+@media (min-width: 1200px) {
+  .content {
+    width: 40%;
+    padding: 45px;
+  }
+}
+@media (min-width: 1400px) {
+  .content {
+    width: 30%;
+  }
+}
