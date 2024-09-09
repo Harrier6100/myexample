@@ -10,6 +10,10 @@ import { Japanese } from 'flatpickr/dist/l10n/ja.js';
 export default {
     props: {
         modelValue: String,
+        format: {
+            type: String,
+            default: 'Y-m-d',
+        },
     },
     setup(props, { emit }) {
         const flatpickrInput = ref(null);
@@ -23,7 +27,7 @@ export default {
 
         onMounted(() => {
             flatpickr(flatpickrInput.value, {
-                dateFormat: 'Y-m-d',
+                dateFormat: props.format,
                 allowInput: true,
                 locale: Japanese,
                 onChange: (selected, value) => {
