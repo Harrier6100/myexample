@@ -28,6 +28,16 @@ const routes = [
         name: 'MaterialStockList',
         component: () => import('@/views/MaterialStockList'),
     },
+    {
+        path: '/chart',
+        name: 'Chart',
+        component: () => import('@/views/Chart'),
+    },
+    {
+        path: '/upload',
+        name: 'Upload',
+        component: () => import('@/views/Upload'),
+    },
 ];
 
 const router = createRouter({
